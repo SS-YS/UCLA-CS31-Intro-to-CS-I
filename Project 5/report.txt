@@ -1,0 +1,154 @@
+a. 
+In my function cleanupRules(), I used another function removeRule() to remove match rules from wordin, wordout. My design is to remove a match rule by moving all match rules after it one place to the left and decrement the number of match rules. The problem is that when I am traversing all the match rules using the for-loop (int i = 0; i < nRules; i++), if I remove the current match rule wordin[i], wordout[i] in the way described above, everything after i would have been shifted to the left. If I continue with the for-loop, what should be the next match rule will be skipped and ignored. So, each time I remove a match rule, I must also decrement i by one. It cost me quite a long time to find this bug and solve this problem. 
+
+b. 
+For the function cleanupRules(), my design is to transform every upper case letter into lower case, then traverse every match rule and remove the ones that should be removed. I created another function removeRule() to do the "remove" part. Here is my pseudocode. 
+
+removeRule():
+	remove a rule by moving all match rules after it one place to the left
+	decrement the number of match rules by one and return this value
+
+cleanupRules():
+	transform every upper case letter into its lower case equivalent
+	traverse every match rule:
+		if the win word is the empty string: 
+			mark this match rule as "should be removed"
+		if the win and wout words are the same:
+			mark this match rule as "should be removed"
+		if a word contains a non-alphabetic character:
+			mark this match rule as "should be removed"
+		if the match rule is marked:
+			remove it // using removeRule()
+		else:
+			if the match rule is one-word and has the same win as other rules:
+				remove the other rules // using removeRule()
+			if the match rule is two-word and has both the same win and wout as other two-word rules:
+				remove the other two-word rules // using removeRule()
+	return the number of match rules
+
+For the function determineScore(), my design is to traverse every word in document, get rid of non-alphabetic characters, and store all the words in a 2D array, then I will calculate the scores based on this new 2D array. Here is my pseudocode.  
+
+determineScore():
+	create a 2D array that will store all the words in document
+	while not reach the end of document:
+		start at a new word
+		get rid of any non-alphabetic character of the current word
+		if the word is not an empty string:
+			add the word to the 2D array
+	initialize score as 0
+	traverse every match rule:
+		traverse every word in the 2D array:
+			if win equals to the current word:
+				set containWin to true
+			if wout equals to the current word: 
+				set containWout to true
+		if the match rule is one-word and containWin is true:
+			increment score by one
+		if the match rule is two-word and containWin is true and containWout is false:
+			increment score by one
+	return score
+
+c. 
+const int MAX_WORD_LENGTH = 20;
+const int MAX_DOCUMENT_LENGTH = 250;
+
+// Test cleanupRules()
+char aIn[3][MAX_WORD_LENGTH+1] = { "furious", "boy", "sports" };
+char aOut[3][MAX_WORD_LENGTH+1] = { "", "emily", "family" };
+cleanupRules(aIn, aOut, -5); // nRules is negative
+cleanupRules(aIn, aOut, 0); // nRules is zero
+cleanupRules(aIn, aOut, 3); // wordin and wordout already in clean form
+char bIn[3][MAX_WORD_LENGTH+1] = { "furious*", "boy", "sports" };
+char bOut[3][MAX_WORD_LENGTH+1] = { "", "emily", " family" };
+cleanupRules(bIn, bOut, 3); // two words contain a non-alphabetic character
+char bInCorrect[1][MAX_WORD_LENGTH+1] = { "boy" };
+char bOutCorrect[1][MAX_WORD_LENGTH+1] = { "emily" };
+char cIn[3][MAX_WORD_LENGTH+1] = { "furious*", "", "sports" };
+char cOut[3][MAX_WORD_LENGTH+1] = { "", "emily", "family" };
+cleanupRules(cIn, cOut, 3); // a win word is the empty string
+char cInCorrect[1][MAX_WORD_LENGTH+1] = { "sports" };
+char cOutCorrect[1][MAX_WORD_LENGTH+1] = { "family" };
+char dIn[3][MAX_WORD_LENGTH+1] = { "furious", "", "sports" };
+char dOut[3][MAX_WORD_LENGTH+1] = { "", "emily", "sports" };
+cleanupRules(dIn, dOut, 3); // a match rule has the same win and wout words
+char dInCorrect[1][MAX_WORD_LENGTH+1] = { "furious" };
+char dOutCorrect[1][MAX_WORD_LENGTH+1] = { "" };
+char eIn[3][MAX_WORD_LENGTH+1] = { "furious*", "", "sports" };
+char eOut[3][MAX_WORD_LENGTH+1] = { "", "emily", "family" };
+cleanupRules(eIn, eOut, 2); // only the first two match rules should be examined
+char fIn[4][MAX_WORD_LENGTH+1] = { "the", "that", "the", "CS" };
+char fOut[4][MAX_WORD_LENGTH+1] = { "warriors", "take", "", "31" };
+cleanupRules(fIn, fOut, 4); // a one-word rule has the same win as another two-word rule
+char fInCorrect[2][MAX_WORD_LENGTH+1] = { "that", "the" };
+char fOutCorrect[2][MAX_WORD_LENGTH+1] = { "take", "" };
+char gIn[4][MAX_WORD_LENGTH+1] = { "the", "that", "the", "CS" };
+char gOut[4][MAX_WORD_LENGTH+1] = { "", "take", "", "31" };
+cleanupRules(gIn, gOut, 4); // a one-word rule has the same win as another one-word rule
+char gInCorrect[2][MAX_WORD_LENGTH+1] = { "that", "the" };
+char gOutCorrect[2][MAX_WORD_LENGTH+1] = { "take", "" };
+char hIn[5][MAX_WORD_LENGTH+1] = { "the", "that", "the", "that", "cs" };
+char hOut[5][MAX_WORD_LENGTH+1] = { "warriors", "take", "", "take", "31" };
+cleanupRules(hIn, hOut, 5); // a two-word rule has both the same win and wout as another two-word rule
+char hInCorrect[2][MAX_WORD_LENGTH+1] = { "the", "that" };
+char hOutCorrect[2][MAX_WORD_LENGTH+1] = { "", "take" };
+char iIn[5][MAX_WORD_LENGTH+1] = { "tHe", "That", "tHE", "tHat", "CS" };
+char iOut[5][MAX_WORD_LENGTH+1] = { "wArrIors", "take", "", "TakE", "31" };
+cleanupRules(iIn, iOut, 5); // match rules contain upper case letters
+char iInCorrect[2][MAX_WORD_LENGTH+1] = { "the", "that" };
+char iOutCorrect[2][MAX_WORD_LENGTH+1] = { "", "take" };
+char jIn[12][MAX_WORD_LENGTH+1] = { "dog", "(mike)", "family", "charm", "confused", "charm", "ties", "", "charm", "CouPle", "refuse", "COUple" };
+char jOut[12][MAX_WORD_LENGTH+1] = { "walking", "older", "last", "project", "confused", "", "family", "frightened", "", "LovEs", "", "loves" };
+cleanupRules(jIn, jOut, 12); // test for correctness
+char jInCorrect[6][MAX_WORD_LENGTH+1] = { "ties", "dog", "family", "refuse", "couple", "charm" };
+char jOutCorrect[6][MAX_WORD_LENGTH+1] = { "family", "walking", "last", "", "loves", "" };
+char kIn[10][MAX_WORD_LENGTH+1] = { "dog", "(mike)", "family", "charm", "confused", "charm", "ties", "", "charm", "CouPle" };
+char kOut[10][MAX_WORD_LENGTH+1] = { "walking", "older", "last", "project", "confused", "", "family", "frightened", "", "LovEs" };
+cleanupRules(kIn, kOut, 9); // test for correctness
+char kInCorrect[6][MAX_WORD_LENGTH+1] = { "ties", "dog", "family", "charm" };
+char kOutCorrect[6][MAX_WORD_LENGTH+1] = { "family", "walking", "last", "" };
+char lIn[10][MAX_WORD_LENGTH+1] = { "abcdefghijklmnopqrst", "(mike)", "family", "charm", "confused", "charm", "ties", "", "charm", "CouPle" };
+char lOut[10][MAX_WORD_LENGTH+1] = { "walking", "older", "last", "project", "confused", "", "family", "frightened", "", "LovEs" };
+cleanupRules(lIn, lOut, 9); // MAX_WORD_LENGTH reached
+char lInCorrect[6][MAX_WORD_LENGTH+1] = { "ties", "abcdefghijklmnopqrst", "family", "charm" };
+char lOutCorrect[6][MAX_WORD_LENGTH+1] = { "family", "walking", "last", "" };
+
+// Test determineScore()
+char mDocument[MAX_DOCUMENT_LENGTH+1] = "Some of NBA's best players include Lebron James from LA Lakers, Kevin Durant from Brooklyn Nets, James Harden from Houston Rockets, Giannis Antetokounmpo from Milwaukee Bucks, and Russell Westbrook from UCLA.";
+char mWin[4][MAX_WORD_LENGTH+1] = { "nba", "james", "ucl", "bucks" };
+char mWout[4][MAX_WORD_LENGTH+1] = { "", "", "",   "" };
+determineScore(mDocument, mWin, mWout, -5); // nRules is negative
+determineScore(mDocument, mWin, mWout, 0); // nRules is zero
+determineScore(mDocument, mWin, mWout, 4); // matches two one-word rules
+char nWin[4][MAX_WORD_LENGTH+1] = { "nbas", "james", "ucla", "bucks" };
+char nWout[4][MAX_WORD_LENGTH+1] = { "jordan", "harden", "la", "championship" };
+determineScore(mDocument, nWin, nWout, 4); // matches two two-word rules
+char oWin[6][MAX_WORD_LENGTH+1] = { "nbas", "james", "ucla", "bucks", "westbrook", "west" };
+char oWout[6][MAX_WORD_LENGTH+1] = { "", "harden", "la", "htown", "", "wood" };
+determineScore(mDocument, oWin, oWout, 6); // matches two one-word rules and one two-word rules
+determineScore(mDocument, oWin, oWout, 4); // only the first four rules should be examined
+char pDocument[MAX_DOCUMENT_LENGTH+1] = "So13290-me of NBA'^%s best pla<>yers include Le';bron James from LA La~ke1rs, Kevin Durant from Br000ooklyn Nets, Jam=es Ha!r!@den from Ho???uston Rock***ets, Gian--nis Antet(okounmpo f)rom Milwaukee Bucks, a(-nd Russell West+brook from UCLA:).";
+determineScore(pDocument, oWin, oWout, 6); // document is filled with non-alphabetic characters that should be ignored
+char qDocument[MAX_DOCUMENT_LENGTH+1] = "So13290-me of  NBA'^%s best pla<>yers include   Le'bron James from LA Lakers, Kevin Durant from Br000ooklyn Nets, James Harden    from Ho???uston Rock***ets, Gian--nis Antet(okounmpo    f)rom Milwaukee Bucks,    a(-nd Russell West+brook from UCLA:).";
+determineScore(qDocument, oWin, oWout, 6); // more than one space character between words
+char rDocument[MAX_DOCUMENT_LENGTH+1] = "";
+determineScore(rDocument, oWin, oWout, 6); // document is an empty string
+char sDocument[MAX_DOCUMENT_LENGTH+1] = ")&)*) (*)(!*)81 8298019809**81929090 0~ ";
+determineScore(sDocument, oWin, oWout, 6); // document has only non-alphabetic characters
+char tWin[4][MAX_WORD_LENGTH+1] = { "ratio", "team", "unsuccessful", "tea" };
+char tWout[4][MAX_WORD_LENGTH+1] = { "meaningful", "", "tea", "" };
+char tDocument[MAX_DOCUMENT_LENGTH+1] = "Successful teams are all alike; every unsuccessful team is unsuccessful in its own way.";
+determineScore(tDocument, tWin, tWout, 4); // test for correctness
+char uDocument[MAX_DOCUMENT_LENGTH+1] = "Successful teas are all alike; every unsuccessful tea is unsuccessful in its own way.";
+determineScore(uDocument, tWin, tWout, 4); // test for correctness
+char vDocument[MAX_DOCUMENT_LENGTH+1] = "Successful teas are all alike; every unsuccessful tea is unsuccessful in its own way.";
+determineScore(vDocument, tWin, tWout, 2); // test for correctness
+char wDocument[MAX_DOCUMENT_LENGTH+1] = "A cup of tea!  A tea! My kingdom for a cup of tea!";
+determineScore(wDocument, tWin, tWout, 4); // test for correctness
+char xDocument[MAX_DOCUMENT_LENGTH+1] = "tea:sugar ratio means nothing.";
+determineScore(xDocument, tWin, tWout, 4); // test for correctness
+char yDocument[MAX_DOCUMENT_LENGTH+1] = "****  **** 2020";
+determineScore(yDocument, tWin, tWout, 4); // test for correctness
+char zDocument[MAX_DOCUMENT_LENGTH+1] = "a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q r s t u ";
+char zWin[8][MAX_WORD_LENGTH+1] = { "a", "cd", "e", "o", "x", "z", "opq", "n" };
+char zWout[8][MAX_WORD_LENGTH+1] = { "p", "", "", "ab", "ii", "", "", "" };
+determineScore(zDocument, zWin, zWout, 8); // MAX_DOCUMENT_LENGTH reached

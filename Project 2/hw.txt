@@ -1,0 +1,49 @@
+1. 
+endlendl
+grendel
+
+2. 
+The program asks the user to enter a number, then it prints a triangle consisting of #, whose height and base corresponds to the number entered.  
+
+3. 
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    int side;
+
+    cout << "Enter a number: ";
+    cin >> side;
+
+    int i = 0;
+    while (i < side)
+    {
+        int j = i;
+        while (j >= 0) {
+            cout << "#";
+            j -= 1;
+        }
+        cout << "\n";
+        i += 1;
+    }
+}
+
+4. 
+switch (codeSection) {
+    case 281:
+        cout << "bigamy";
+        break;
+    case 321:
+    case 322:
+        cout << "selling illegal lottery tickets";
+        break;
+    case 383:
+        cout << "selling rancid butter";
+        break;
+    case 598:
+        cout << "injuring a bird in a public cemetery";
+        break;
+    default:
+        cout << "some other crime";
+}

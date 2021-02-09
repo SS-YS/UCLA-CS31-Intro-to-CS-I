@@ -1,0 +1,44 @@
+http://web.cs.ucla.edu/classes/fall20/cs31/linux.html
+
+Assume that the source file is "hello.cpp". 
+
+1. Connect to the UCLA VPN
+    (1) Enter password:
+	sm**************LA!/   +   (Duo Mobile里6位数的passcode)
+
+2. Log in to the SEASnet CS31 Linux Server
+    (1) In Terminal:
+	ssh classysh@cs31.seas.ucla.edu
+    (2) Enter password:
+	20**Engi
+
+
+3. Copy the file from my MacBook to the Server
+    (1) Copy the file to my MacBook's Desktop
+    (2) Open a new Terminal window
+    (3) Copy the file from my MacBook's Desktop to the Server's default directory (~):
+        scp Desktop/hello.cpp classysh@cs31.seas.ucla.edu:~
+    (4) Enter password
+	
+4. Build and run
+    (1) Switch to the Terminal window that has logged in to the Server
+    (2) Build an executable file "hello" from "hello.cpp":
+	g31 -o hello hello.cpp
+    (3) Execute "hello":
+	./hello
+
+5. Exit the shell
+    (1) In Terminal:
+	exit
+
+* Useful commands
+    (1) List the contents of a directory: 
+	ls
+    (2) Change the current directory:
+	cd
+    (3) Delete a file:
+	rm
+    (4) Examine the file under Linux:
+	nano hello.cpp
+    (5) Copy the file from the Server's Desktop directory to its default directory:
+	cp Desktop/hello.cpp ~

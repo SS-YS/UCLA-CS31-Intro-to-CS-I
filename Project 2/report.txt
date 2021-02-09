@@ -1,0 +1,13 @@
+a. 
+A problem that I encountered when doing project 2 is making my output number contain exactly two digits to the right of the decimal point. I knew that professor mentioned this during lectures but I forgot its details. So I watched the lectures again and found out that "cout.setf(ios::fixed); cout.precision(2);" would work. 
+
+b.
+Check if the first 1000 dollars are calculated correctly (caerphilly, 1000, Cheese Store)
+Check if the first 1000 and the next 12000 are calculated correctly (caerphilly, 13000, Cheese Store)
+Check if the first 1000, the next 12000, and more are calculated correctly (caerphilly, 20000, Cheese Store)
+Check if cheshire is calculated correctly for the next 12000 (beyond the first 1000) (cheshire, 5298, Cheese Store)
+Check if stilton is calculated correctly for the next 12000 (beyond the first 1000) (stilton, 18922, Cheese Store)
+Cheese type is empty (, 1000, Cheese Store)
+Value is zero (caerphilly, 0, Cheese Store)
+Value is negative (caerphilly, -111, Cheese Store)
+Importer is empty (caerphilly, 1000,)

@@ -1,0 +1,107 @@
+a. 
+I spent a lot of time debugging my differ() function because of a silly mistake. When I tried to test the function with my test data, nothing showed in the output panel. I tried it for several times but it was still not working. I thought there were some problems with the compiler or Xcode and went on the Internet to search for solutions. I came across several weird solutions that asked me to change Xcode settings and other stuff, but none worked. Finally, I found out that it was me responsible for this "nothing in output" problem. I never increment the variable i in the while loop so the program just kept running forever. I spent so much time on something so silly. I guess this is how experience is gained. :(
+
+b. 
+// Test appendToAll()
+string a[8] = { "martha", "mark", "lindsey", "sara", "spark", "ava", "mike", "" };
+appendToAll(a, -2, "!"); // n is negative
+appendToAll(a, 0, "!"); // n is 0, should return 0 and leave the array unchanged
+appendToAll(a, 8, "!"); // test for correctness
+appendToAll(a, 4, "?"); // only the first 4 elements should be changed
+
+// Test lookup()
+string b[9] = { " ", "martha", "mark", "lindsey", "sara", "spark", "ava", "mike", "" };
+lookup(b, -2, "mark"); // n is negative
+lookup(b, 0, "mark"); // n is 0, should return -1
+lookup(b, 9, "mark"); // test for correctness
+lookup(b, 9, ""); // test for correctness
+b[7] = "";
+lookup(b, 9, ""); // more than one target string in the array, should return the smallest position
+lookup(b, 9, "!"); // no match
+lookup(b, 4, "sara"); // only the first 4 elements should be checked
+    
+// Test positionOfMax()
+string c[9] = { " ", "martha", "mark", "lindsey", "sara", "ava", "spark", "mike", "" };
+positionOfMax(c, -2); // n is negative
+positionOfMax(c, 0); // n is 0, should return -1
+positionOfMax(c, 9); // test for correctness
+c[5] = "spark";
+positionOfMax(c, 9); // more than one max string, should return the smallest position
+positionOfMax(c, 5); // only the first 5 elements should be checked
+positionOfMax(c, 2); // only the first 2 elements should be checked
+
+// Test rotateLeft()
+string d[8] = { "martha", "mark", "lindsey", "sara", "spark", "ava", "mike", "" };
+rotateLeft(d, -2, 2); // n is negative
+rotateLeft(d, 8, -2); // pos is negative
+rotateLeft(d, 3, 6); // pos >= n
+rotateLeft(d, 0, 0); // pos >= n
+rotateLeft(d, 8, 2); // test for correctness
+rotateLeft(d, 6, 4); // only the first 6 elements should be changed
+     
+// Test countRuns()
+string e[10] = { "today", "today", "tomorrow", "", "", "", " ", "cs", "31", "31" };
+countRuns(e, -2); // n is negative
+countRuns(e, 0); // n is 0, should return 0
+countRuns(e, 10) == 6); // test for correctness
+countRuns(e, 8); // only the first 8 elements should be checked    
+countRuns(e, 1); // only the first element should be checked
+    
+// Test flip()
+string f[9] = { " ", "martha", "mark", "lindsey", "sara", "spark", "ava", "mike", "" };
+flip(f, -2); // n is negative
+flip(f, 0); // n is 0, should return 0 and leave the array unchanged
+flip(f, 9); // test for correctness
+flip(f, 5); // only the first 5 elements should be changed
+flip(f, 1); // only the first element should be changed
+        
+// Test differ()
+string g1[7] = { "martha", "mark", "lindsey", "joe", "susan", "", "kamala" };
+string g2[4] = { "martha", "mark", "lindsey", "sara" };
+differ(g1, -2, g2, 4); // n1 is negative
+differ(g1, 7, g2, -2); // n2 is negative
+differ(g1, 0, g2, 4); // n1 is 0, should return 0
+differ(g1, 7, g2, 0); // n2 is 0, should return 0
+differ(g1, 7, g2, 4); // test for correctness
+differ(g1, 2, g2, 3); // arrays are equal until g1 runs out
+differ(g1, 1, g2, 1); // arrays are equal until both run out
+
+// Test subsequence()
+string h[10] = { "today", "today", "tomorrow", "", "", "", " ", "cs", "31", "31" };
+string h1[2] = { "today", "tomorrow" };
+subsequence(h, -2, h1, 2); // n1 is negative
+subsequence(h, 10, h1, -2); // n2 is negative
+subsequence(h, 0, h1, 2); // n1 is 0, should return -1
+subsequence(h, 10, h1, 20); // n2 is 0, should return -1
+subsequence(h, 10, h1, 2); // test for correctness
+string h2[2] = { "", "" };
+subsequence(h, 10, h2, 2); // more than one subsequence, should return the smallest position
+subsequence(h, 4, h2, 2); // only the first 4 elements should be checked
+string h3[2] = { " ", "" };
+subsequence(h, 10, h3, 2); // no match
+subsequence(h, 10, h3, 1); // {" "} is the subsequence
+    
+// Test lookupAny()
+string i[10] = { "today", "today", "tomorrow", "", "", "", " ", "cs", "31", "31" };
+string i1[3] = { "Monday", "CS", "today" };
+lookupAny(i1, -2, i, 10); // n1 is negative
+lookupAny(i1, 3, i, -2); // n2 is negative
+lookupAny(i1, 0, i, 10); // n1 is 0, should return -1
+lookupAny(i1, 3, i, 0); // n2 is 0, should return -1
+lookupAny(i1, 3, i, 10); // test for correctness
+lookupAny(i1, 2, i, 10); // only the first 2 elements in i1 should be checked, there is no match
+i1[1] = "cs";
+lookupAny(i1, 3, i, 10); // both "cs" and "today" can match, should return the smallest position
+lookupAny(i1, 3, i, 7); // only the first 7 elements in i should be checked
+string i2[3] = { "Monday", "Cs", "Today" };
+lookupAny(i2, 3, i, 10); // no match
+    
+// Test divide()
+string j[10] = { "ae", "b", "c", "aa", "e", "a", "ab", "ac", "d", "az" };
+divide(j, -2, "af"); // n is negative
+divide(j, 0, "af"); // n is 0, should return 0
+divide(j, 10, "af"); // test for correctness
+divide(j, 10, "b"); // test for correctness
+divide(j, 10, "f"); // no element >= divider
+string j1[10] = { "ae", "b", "c", "aa", "e", "a", "ab", "ac", "d", "az" };
+divide(j1, 4, "ca"); // only the first 4 elements should be changed and checked, there is no element >= divider

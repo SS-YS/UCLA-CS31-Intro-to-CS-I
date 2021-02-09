@@ -1,0 +1,5 @@
+1. I provided the input 100 for the variable numberSurveyed. Then, for both the variable forJoe and forDonald, I provided the input 200. The output of the program says "200.0% say they will vote for Joe." and "200.0% say they will vote for Donald." This does not make sense because the percentage of people who will vote for Joe or Donald shouldn't exceed 100%. 
+
+2. In logic_error.cpp, I changed line 30 from "if (forJoe > forDonald)" to "if (forJoe < forDonald)". With this change, the program can still build successfully, but it will give the wrong prediction for who will win the election. 
+
+3. In compile_error.cpp, I made 2 changes. Firstly, I removed the semicolon in line 20, making it "double pctJoe = 100.0 * forJoe / numberSurveyed". Secondly, in line 28, I changed "pctDonald" to "pctdonald". For each of these 2 lines, the compiler gives me an error message. For line 20, the compiler gave me the message "Expected ';' at end of declaration". For line 28, the compiler gave me the message "Use of undeclared identifier 'pctdonald'". 

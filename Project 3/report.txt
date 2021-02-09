@@ -1,0 +1,60 @@
+1. One obstacle I encountered when doing this project was converting a digit character to its corresponding integer (e.g., how to get int 9 from char '9', how to get int 1 from char '1'). I searched on the Internet and came through several methods that can convert variable type. But eventually, I found the most elegant solution in the section "Characters and Integers" that the professor wrote on the website. The code numbers for the digit characters '0' through '9' must be contiguous and increasing. If I have a character '2', and I subtract it with '0', the result will be 2. Therefore, if I want to convert the character '2' to the integer 2, I can simply initialize a new int variable and then assign it the value of '2' - '0'.
+
+2. 
+For the function isSyntacticallyCorrect(), my design is to traverse the whole string and check on each state forecast respectively. If anything wrong is found, return false immediately. If nothing wrong is found until the end, return true. Here is my pseudocode. 
+ 
+isSyntacticallyCorrect():
+    while not reach the end of string:
+	start at current state forecast
+	check if there is one or two digits, if no:
+	    return false
+	check if the state code is correct, if not:
+	    return false
+	check if the party code is correct, if not:
+	    return false
+	proceed to next state forecast
+    all state forecasts have been checked, return true
+
+For the function tallyVotes(), my design is to first check on special cases. Then, traverse the whole string and for each state forecast, calculate its votes and add to the running total if the votes belong to the party of our interest. Here is my pseudocode. 
+
+tallyVotes():
+    check on special cases, return 1 or 2 if applicable
+    while not reach the end of string:
+	start at current state forecast
+	calculate current votes
+	if current vote is 0:
+	    return 3
+	check party code, and if it is the one we want:
+	    add current votes to running total
+	proceed to next state forecast
+    set the desired variable to running total, and return 0
+
+3. 
+Test data for bool isSyntacticallyCorrect(string pollData):
+("") // A valid poll data string
+("38tXr55CaD") // A valid poll data string
+("38TXR55CAD6Msr29nYd06UTL") // A valid poll data string
+
+("tXr55CaD") // no digit in front of "tXr"
+("111tXr55CaD") // more than two digits in front of "tXr"
+("38r55D") // no state code
+("38mXr55CaD") // "mX" is not a state code
+("38tXTxr55CaD") // "38tXTxr" has two state codes
+("38tX55Ca") // no party code
+("38tXr55Ca$") // "$" is not a party code
+("38tXr55CaDd") // "55CaDd" has two party codes
+("38tXrA55CaD") // an extra "A" between "38tXr" and "55CaD"
+("38t Xr55CaD") // an extra " " after "38t"
+("38tXr55CaD0") // an extra "0" at the end
+
+Test data for int tallyVotes(string pollData, char party, int& voteTally):
+("38TXR55CAD6Msr29nYd06UTL", 'd', votes) // Test if votes are calculated correctly
+("38TXR55CAD6Msr29nYd06UTL", 'R', votes) // Test if votes are calculated correctly
+("38TXR55CAD6Msr29nYd06UTL", 'l', votes) // Test if votes are calculated correctly
+
+("111tXr55CaD", 'd', votes) // invalid poll data string
+("38tXr55Ca$", 'r', votes) // invalid poll data string
+("38TXR55CAD", '%', votes) // invalid party
+("38TXR55CAD", ' ', votes) // invalid party
+("38TXR55CAD6Msr29nYd0UTL", 'd', votes) // "00UTL" predicts 0 vote
+("0CAD38TXR", 'r', votes) // "0CAD" predicts 0 vote
