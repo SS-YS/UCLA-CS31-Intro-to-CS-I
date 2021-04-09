@@ -4,14 +4,13 @@ Assume that the source file is "hello.cpp".
 
 1. Connect to the UCLA VPN
     (1) Enter password:
-	sm**************LA!/   +   (Duo Mobile里6位数的passcode)
+	*** + / + (Duo Mobile里6位数的passcode)
 
 2. Log in to the SEASnet CS31 Linux Server
     (1) In Terminal:
-	ssh classysh@cs31.seas.ucla.edu
+	ssh ***@cs31.seas.ucla.edu
     (2) Enter password:
-	20**Engi
-
+	***
 
 3. Copy the file from my MacBook to the Server
     (1) Copy the file to my MacBook's Desktop
